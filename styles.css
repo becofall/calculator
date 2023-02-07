@@ -19,7 +19,7 @@ body {
   margin-top: 30px;
   margin-bottom: 30px;
   padding: 25px;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -31,8 +31,13 @@ body {
 #screen {
   background-color: aliceblue;
   height: 100px;
-  padding: 3px;
+  padding-right: 10px;
+  padding-bottom: 5px;
   margin: 3px 3px 15px 3px;
+  font-size: 3rem;
+  display: flex;
+  justify-content: end;
+  align-items:flex-end;
 }
 
 .btn {
@@ -59,11 +64,11 @@ body {
 
 .clear {
   background-color: rgb(209, 66, 66);
-  color: white;
+  color: rgb(241, 227, 95);
 }
 
 .delete {
-  background-color: white;
+  background-color:rgb(241, 227, 95);
   color: rgb(209, 66, 66)
 }
 
@@ -85,5 +90,5 @@ body {
 
 .op {
   background-color: white;
-  color: rgb(62, 125, 136);
+  color: black;
 }
