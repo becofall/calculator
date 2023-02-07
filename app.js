@@ -1,3 +1,11 @@
+let displayValue = document.querySelector("#screen");
+const btn = document.querySelectorAll(".btn");
+
+btn.addEventListener("click", () => {
+  displayValue.innerHTML = 100;
+})
+
+
 
 function add(num1, num2) {
   return num1 + num2;
