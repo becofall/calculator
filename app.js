@@ -1,9 +1,31 @@
-let displayValue = document.querySelector("#screen");
-const btn = document.querySelectorAll(".btn");
+let operator = "";
+let previousValue = "";
+let displayValue = "";
 
-btn.addEventListener("click", () => {
-  displayValue.innerHTML = 100;
-})
+let displayScreen = document.querySelector(".current");
+let previousScreen = document.querySelector(".previous");
+
+let clear = document.querySelector(".clear");
+let del = document.querySelector(".delete");
+let equal = document.querySelector(".equals");
+let decimal = document.querySelector(".decimal");
+
+let numbers = document.querySelectorAll(".num");
+let operators = document.querySelectorAll(".operator");
+const calc = document.querySelector("#calculator");
+
+
+for (let i = 0; i < numbers.length; i++) {
+  numbers[i].addEventListener("click", function(e) {
+    appendNumber(e.target.textContent);
+    displayScreen.textContent = displayValue;
+  })
+}
+
+function appendNumber(num) {
+  displayValue += num;
+}
+
 
 
 
