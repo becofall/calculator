@@ -1,6 +1,6 @@
 let operator = "";
 let previousValue = "";
-let displayValue = "";
+let currentValue = "";
 
 let displayScreen = document.querySelector(".current");
 let previousScreen = document.querySelector(".previous");
@@ -18,14 +18,36 @@ const calc = document.querySelector("#calculator");
 for (let i = 0; i < numbers.length; i++) {
   numbers[i].addEventListener("click", function(e) {
     appendNumber(e.target.textContent);
-    displayScreen.textContent = displayValue;
+    displayScreen.textContent = currentValue;
+  })
+}
+
+for (let i = 0; i < operators.length; i++) {
+  operators[i].addEventListener("click", function(e) {
+    if (previousValue) {
+      operate(operators[i].textContent, previousValue, currentValue);
+    }
+    previousValue = currentValue;
+    console.log(previousValue);
+    previousScreen.textContent = " " + displayScreen.textContent +  " " + operators[i].textContent;
+    displayScreen.textContent = 0;
+    currentValue = 0;
+    operator = e.target.textContent;
+    console.log(operator);
+    console.log(currentValue);
   })
 }
 
 function appendNumber(num) {
-  displayValue += num;
+  if (currentValue == 0) {
+    currentValue = num;
+  } else if (currentValue.length <= 13) {
+    currentValue += num;
+  // } else {
+  //   currentValue += num;
+  }
+  
 }
-
 
 
 
