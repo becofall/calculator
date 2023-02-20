@@ -23,7 +23,7 @@ numbers.forEach((number) =>
 operators.forEach((operator) => 
   operator.addEventListener("click", () => setOperation(operator.textContent)));
 
-
+//append number to display when number pressed
 function appendNumber(num) {
   if (displayScreen.textContent === "0" || canResetScreen) {
     resetScreen();
@@ -46,39 +46,47 @@ function appendDecimal() {
   displayScreen.textContent += ".";
 }
 
+//when an operator(+-*/) is pressed
 function setOperation(currentOperator) {
   if(operator !== null) {
     evaluate();
   }
-  firstValue = displayScreen.textContent;
+  firstValue = Number(displayScreen.textContent);
   operator = currentOperator;
   secondaryScreen.textContent = `${firstValue} ${operator}`;
   canResetScreen = true;
 }
 
+//when equals is pressed
 function evaluate() {
   if(operator === null || canResetScreen) {
     return;
   }
+  //can't divide by zero exception
   if(operator === "/" && displayScreen.textContent === "0") {
     displayScreen.textContent = "ERROR";
     return;
   }
-  secondValue = displayScreen.textContent;
-  
+
+  secondValue = Number(displayScreen.textContent);
+  console.log()
   let result = roundValue(operate(operator, firstValue, secondValue));
   console.log(result);
+  
+  //for if result doesn't fit on display
   if(result.toString().length > 14) {
     displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue)).toPrecision(9);
     secondaryScreen.textContent = `${firstValue} ${operator} ${secondValue} = `
     operator = null;
     return;
   }
+  
   displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue));
   secondaryScreen.textContent = `${firstValue} ${operator} ${secondValue} = `
   operator = null;
 }
 
+//when clear button is pressed
 function clearScreen() {
   displayScreen.textContent = "";
   secondaryScreen.textContent = "";
@@ -92,12 +100,12 @@ function resetScreen() {
   canResetScreen = false;
 }
 
-function roundValue(num) {
-  return Math.round(num * 1000) / 1000;
-}
-
 function deleteNum() {
   displayScreen.textContent = displayScreen.textContent.toString().slice(0, -1);
+}
+
+function roundValue(num) {
+  return Math.round(num * 1000) / 1000;
 }
 
 function add(num1, num2) {
