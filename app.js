@@ -11,7 +11,6 @@ let equal = document.querySelector(".equals");
 let decimal = document.querySelector(".decimal");
 let numbers = document.querySelectorAll(".num");
 let operators = document.querySelectorAll(".operator");
-const calc = document.querySelector("#calculator");
 
 clear.addEventListener("click", clearScreen);
 del.addEventListener("click", deleteNum);
@@ -25,7 +24,7 @@ operators.forEach((operator) =>
   operator.addEventListener("click", () => setOperation(operator.textContent)));
 
 
-  function appendNumber(num) {
+function appendNumber(num) {
   if (displayScreen.textContent === "0" || canResetScreen) {
     resetScreen();
   }
@@ -66,14 +65,16 @@ function evaluate() {
     return;
   }
   secondValue = displayScreen.textContent;
+  
   let result = roundValue(operate(operator, firstValue, secondValue));
   console.log(result);
   if(result.toString().length > 14) {
     displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue)).toPrecision(9);
-    console.log("too long");
-  } else {
-    displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue));
+    secondaryScreen.textContent = `${firstValue} ${operator} ${secondValue} = `
+    operator = null;
+    return;
   }
+  displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue));
   secondaryScreen.textContent = `${firstValue} ${operator} ${secondValue} = `
   operator = null;
 }
