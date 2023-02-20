@@ -1,55 +1,103 @@
-let operator = "";
-let previousValue = "";
-let currentValue = "";
+let operator = null;
+let secondValue = "";
+let firstValue = "";
+let canResetScreen = false;
 
 let displayScreen = document.querySelector(".current");
-let previousScreen = document.querySelector(".previous");
-
+let secondaryScreen = document.querySelector(".previous");
 let clear = document.querySelector(".clear");
 let del = document.querySelector(".delete");
 let equal = document.querySelector(".equals");
 let decimal = document.querySelector(".decimal");
-
 let numbers = document.querySelectorAll(".num");
 let operators = document.querySelectorAll(".operator");
 const calc = document.querySelector("#calculator");
 
+clear.addEventListener("click", clearScreen);
+del.addEventListener("click", deleteNum);
+equal.addEventListener("click", evaluate);
+decimal.addEventListener("click", appendDecimal);
 
-for (let i = 0; i < numbers.length; i++) {
-  numbers[i].addEventListener("click", function(e) {
-    appendNumber(e.target.textContent);
-    displayScreen.textContent = currentValue;
-  })
-}
+numbers.forEach((number) =>
+  number.addEventListener("click", () => appendNumber(number.textContent)));
 
-for (let i = 0; i < operators.length; i++) {
-  operators[i].addEventListener("click", function(e) {
-    if (previousValue) {
-      operate(operators[i].textContent, previousValue, currentValue);
-    }
-    previousValue = currentValue;
-    console.log(previousValue);
-    previousScreen.textContent = " " + displayScreen.textContent +  " " + operators[i].textContent;
-    displayScreen.textContent = 0;
-    currentValue = 0;
-    operator = e.target.textContent;
-    console.log(operator);
-    console.log(currentValue);
-  })
-}
+operators.forEach((operator) => 
+  operator.addEventListener("click", () => setOperation(operator.textContent)));
 
-function appendNumber(num) {
-  if (currentValue == 0) {
-    currentValue = num;
-  } else if (currentValue.length <= 13) {
-    currentValue += num;
-  // } else {
-  //   currentValue += num;
+
+  function appendNumber(num) {
+  if (displayScreen.textContent === "0" || canResetScreen) {
+    resetScreen();
   }
-  
+  if (displayScreen.textContent.length <= 13) {
+    displayScreen.textContent += num;
+  }
 }
 
+function appendDecimal() {
+  if(canResetScreen) {
+    resetScreen();
+  }
+  if(displayScreen.textContent == "") {
+    displayScreen.textContent = "0";
+  }
+  if(displayScreen.textContent.includes(".")) {
+    return;
+  }
+  displayScreen.textContent += ".";
+}
 
+function setOperation(currentOperator) {
+  if(operator !== null) {
+    evaluate();
+  }
+  firstValue = displayScreen.textContent;
+  operator = currentOperator;
+  secondaryScreen.textContent = `${firstValue} ${operator}`;
+  canResetScreen = true;
+}
+
+function evaluate() {
+  if(operator === null || canResetScreen) {
+    return;
+  }
+  if(operator === "/" && displayScreen.textContent === "0") {
+    displayScreen.textContent = "ERROR";
+    return;
+  }
+  secondValue = displayScreen.textContent;
+  let result = roundValue(operate(operator, firstValue, secondValue));
+  console.log(result);
+  if(result.toString().length > 14) {
+    displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue)).toPrecision(9);
+    console.log("too long");
+  } else {
+    displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue));
+  }
+  secondaryScreen.textContent = `${firstValue} ${operator} ${secondValue} = `
+  operator = null;
+}
+
+function clearScreen() {
+  displayScreen.textContent = "";
+  secondaryScreen.textContent = "";
+  firstValue = "";
+  secondValue = "";
+  operator = null;
+}
+
+function resetScreen() {
+  displayScreen.textContent = "";
+  canResetScreen = false;
+}
+
+function roundValue(num) {
+  return Math.round(num * 1000) / 1000;
+}
+
+function deleteNum() {
+  displayScreen.textContent = displayScreen.textContent.toString().slice(0, -1);
+}
 
 function add(num1, num2) {
   return num1 + num2;
