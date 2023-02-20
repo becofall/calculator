@@ -72,7 +72,7 @@ function evaluate() {
 
   let result = roundValue(operate(operator, firstValue, secondValue));
  
-    //for if result doesn't fit on display
+  //for if result doesn't fit on display
   if(result.toString().length > 14) {
     displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue)).toPrecision(9);
     secondaryScreen.textContent = `${firstValue} ${operator} ${secondValue} = `
@@ -99,6 +99,7 @@ function resetScreen() {
   canResetScreen = false;
 }
 
+//backspace button
 function deleteNum() {
   displayScreen.textContent = displayScreen.textContent.toString().slice(0, -1);
 }
