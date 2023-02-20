@@ -69,11 +69,10 @@ function evaluate() {
   }
 
   secondValue = Number(displayScreen.textContent);
-  console.log()
+
   let result = roundValue(operate(operator, firstValue, secondValue));
-  console.log(result);
-  
-  //for if result doesn't fit on display
+ 
+    //for if result doesn't fit on display
   if(result.toString().length > 14) {
     displayScreen.textContent = roundValue(operate(operator, firstValue, secondValue)).toPrecision(9);
     secondaryScreen.textContent = `${firstValue} ${operator} ${secondValue} = `
